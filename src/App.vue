@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div class="header">
-      <router-link exact active-class="active" to="/">资源市场</router-link>
-      <router-link active-class="active" to="/workbench">工作台</router-link>
+      <router-link to="/">资源市场</router-link>
+      <router-link to="/workbench">工作台</router-link>
     </div>
     <router-view></router-view>
   </div>
@@ -12,23 +12,24 @@
 
 export default {
   name: "app",
-  components: {
-  }
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 #app{
+  color: #2c3e50;
   .header{
-    margin:0 10px;
+    margin:10px auto;
     width:800px;
-    margin:0 auto;
     display: flex;
     justify-content: space-around;
-    .active{
-      color: aqua;
+    a.router-link-exact-active{
+      color: #409EFF;
     }
-
+    a{
+      color: #2c3e50;
+      font-weight: bold
+    }
   }
 }
 </style>

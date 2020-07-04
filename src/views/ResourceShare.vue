@@ -1,61 +1,225 @@
 <template>
-  <div class="resource-share">
-    <div class="resource-head">
-      <div class="sreach-card">
-        <el-input placeholder="请输入内容" size="mini" v-model="input" clearable></el-input>
-        <el-button type="primary" size="mini" icon="el-icon-search"></el-button>
-        <div class="sreach-text">
-          <el-button type="primary" size="mini">高级搜索</el-button>
+  <div class="resource-container">
+    <div class="resource-share">
+      <div class="resource--sreach">
+        <div class="resource-head">
+          <div class="sreach-head-input">
+            <el-input placeholder="请输入内容" size="mini" v-model="dataSreach" clearable></el-input>
+            <el-button type="primary" size="mini" icon="el-icon-search"></el-button>
+            <div class="sreach-text">
+              <el-button type="primary" size="mini" @click="isDialog">高级搜索</el-button>
+            </div>
+          </div>
+          <div class="resource-date">
+            <div class="block">
+              <span class="demonstration resource-date-title">有效期至</span>
+              <el-date-picker v-model="date" type="date" placeholder="选择日期" size="mini"></el-date-picker>
+            </div>
+          </div>
         </div>
+        <sreach-type :objData="objData"></sreach-type>
       </div>
-      <div class="resource-date">
-        <div class="block">
-          <span class="demonstration resource-date-title">有效期至</span>
-          <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
+      <div class="resource-main">
+        <div class="resource-main-scroll">
+          <resource-main-card></resource-main-card>
+          <resource-main-card></resource-main-card>
+          <resource-main-card></resource-main-card>
+          <resource-main-card></resource-main-card>
+          <resource-main-card></resource-main-card>
+          <resource-main-card></resource-main-card>
         </div>
+        <div class="shopping-Cart">
+          <el-badge :value="100" :max="10">
+            <el-button @click="isDrawer" size="small">购物车</el-button>
+          </el-badge>
+        </div>
+        <pagination></pagination>
       </div>
     </div>
-    <div class="resource-type-sreach">
-        
-    </div>
+    <sreach-dialog :dialogVisible.sync="dialogVisible"></sreach-dialog>
+    <drawer-shopping-cart :drawer.sync="drawer"></drawer-shopping-cart>
   </div>
 </template>
 
 <script>
+import SreachType from "@/components/SreachType";
+import ResourceMainCard from "@/components/ResourceMainCard";
+import Pagination from "@/components/Pagination";
+import SreachDialog from "@/components/SreachDialog";
+import DrawerShoppingCart from "@/components/DrawerShoppingCart";
+
 export default {
   name: "resource-share",
   data() {
     return {
-      input: "",
-      value1: ""
+      drawer: false,
+      dialogVisible: false,
+      isshow: true,
+      dataSreach: "",
+      date: "",
+      checkboxGroup: [],
+      objData: {
+        typeName: "类型",
+        typeList: [
+          {
+            id: 1,
+            name: "全部",
+            count: 1024
+          },
+          {
+            id: 2,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 3,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 4,
+            name: "全部",
+            count: 1024
+          },
+          {
+            id: 5,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 6,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 7,
+            name: "全部",
+            count: 1024
+          },
+          {
+            id: 8,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 9,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 10,
+            name: "全部",
+            count: 1024
+          },
+          {
+            id: 11,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 12,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 13,
+            name: "全部",
+            count: 1024
+          },
+          {
+            id: 14,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 15,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 16,
+            name: "全部",
+            count: 1024
+          },
+          {
+            id: 17,
+            name: "更多内容",
+            count: 1240
+          },
+          {
+            id: 18,
+            name: "更多内容",
+            count: 1240
+          }
+        ]
+      }
     };
+  },
+  components: {
+    SreachType,
+    ResourceMainCard,
+    Pagination,
+    SreachDialog,
+    DrawerShoppingCart
+  },
+  methods: {
+    isDialog() {
+      this.dialogVisible = true;
+    },
+    isDrawer() {
+      this.drawer = true;
+    }
   }
 };
 </script>
 
 <style lang="less" scoped>
-.resource-share {
-  background: #ccc;
-  .resource-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .resource-date {
-    padding-right: 20px;
-    .resource-date-title {
-      margin-right: 10px;
+.resource-container {
+  background-color: #f8f8f8;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  .resource--sreach {
+    .resource-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 10px;
+      .sreach-head-input {
+        margin: 10px;
+        width: 300px;
+        display: flex;
+        align-items: center;
+        .sreach-text {
+          margin-left: 10px;
+        }
+      }
+      .resource-date {
+        padding-right: 20px;
+        .resource-date-title {
+          margin-right: 10px;
+          font-size: 14px;
+        }
+      }
     }
   }
-}
-.sreach-card {
-  padding: 10px;
-  margin: 10px;
-  width: 300px;
-  display: flex;
-  align-items: center;
-  .sreach-text {
-    margin-left: 10px;
+  .resource-main {
+    margin: 10px 0 0;
+    background: #fff;
+    .resource-main-scroll {
+      height: 520px;
+      overflow: auto;
+    }
+    .shopping-Cart {
+      display: flex;
+      justify-content: flex-end;
+      margin: 0 10px;
+      padding: 10px 300px 10px;
+      border-top: 1px solid #ccc;
+      justify-items: center;
+    }
   }
 }
 </style>
