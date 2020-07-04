@@ -1,32 +1,34 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="header">
+      <router-link exact active-class="active" to="/">资源市场</router-link>
+      <router-link active-class="active" to="/workbench">工作台</router-link>
     </div>
-    <router-view />
+    <router-view></router-view>
   </div>
 </template>
 
+<script>
+
+export default {
+  name: "app",
+  components: {
+  }
+};
+</script>
+
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+#app{
+  .header{
+    margin:0 10px;
+    width:800px;
+    margin:0 auto;
+    display: flex;
+    justify-content: space-around;
+    .active{
+      color: aqua;
     }
+
   }
 }
 </style>
