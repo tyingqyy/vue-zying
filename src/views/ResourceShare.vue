@@ -1,7 +1,7 @@
 <template>
-  <div class="resource-container">
+  <div class="resource">
     <div class="resource-share">
-      <div class="resource--sreach">
+      <div class="resource-sreach">
         <div class="resource-head">
           <div class="sreach-head-input">
             <el-input placeholder="请输入内容" size="mini" v-model="dataSreach" clearable></el-input>
@@ -21,18 +21,15 @@
       </div>
       <div class="resource-main">
         <div class="resource-main-scroll">
-          <resource-main-card></resource-main-card>
+          <resource-main-card @addToCart="addToCart"></resource-main-card>
           <resource-main-card></resource-main-card>
           <resource-main-card></resource-main-card>
           <resource-main-card></resource-main-card>
           <resource-main-card></resource-main-card>
           <resource-main-card></resource-main-card>
         </div>
-        <div class="shopping-Cart">
-          <el-badge :value="100" :max="10">
-            <el-button @click="isDrawer" size="small">购物车</el-button>
-          </el-badge>
-        </div>
+      </div>
+      <div class="resource-pagination">
         <pagination></pagination>
       </div>
     </div>
@@ -166,7 +163,7 @@ export default {
     isDialog() {
       this.dialogVisible = true;
     },
-    isDrawer() {
+    addToCart() {
       this.drawer = true;
     }
   }
@@ -174,13 +171,22 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.resource-container {
+.resource {
   background-color: #f8f8f8;
   width: 100%;
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
-  .resource--sreach {
+  &-share {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    &-pagination {
+      flex: 0 0 auto;
+    }
+  }
+  .resource-sreach {
+    flex: 0 0 auto;
     .resource-head {
       display: flex;
       justify-content: space-between;
@@ -208,10 +214,8 @@ export default {
   .resource-main {
     margin: 10px 0 0;
     background: #fff;
-    .resource-main-scroll {
-      height: 520px;
-      overflow: auto;
-    }
+    flex: 1 1 auto;
+    overflow-y: auto;
     .shopping-Cart {
       display: flex;
       justify-content: flex-end;
