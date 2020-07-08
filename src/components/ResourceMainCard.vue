@@ -1,62 +1,71 @@
 <template>
   <div class="resource-main-card">
     <div class="card-image">
-      <img src alt />
+      <img :src="card.img" alt />
     </div>
     <div class="card-content">
       <div class="card-content-top">
-        <h3>XXXXX</h3>
-        <span>空闲</span>
-        <span>到期日期2020-10-20</span>
+        <h3>{{ card.title }}</h3>
+        <span>{{ card.status }}</span>
+        <span>到期日期{{ card.dueDate }}</span>
         （
-        <span>剩余145天</span>）
+        <span>剩余{{ card.leftDays }}天</span>）
       </div>
       <div class="card-content-moddle">
-        <p>描述：描述XXXXXXX描述描述XXXXXXX描述描述XXXXXXX描述描述XXXXXXX描述描述XXXXXXX描述描述XXXXXXX描述描述XXXXXXX描述</p>
+        <p>描述：{{ card.description }}</p>
       </div>
       <div class="card-content-bottom">
-        <div class="card-content-bottom-code">
-          <span>XXX型号：XXXXXX</span>
-          <span>XX号：XXXXX</span>
-          <span>XX编码：XXXXXXXXX</span>
-        </div>
-        <div class="card-content-bottom-code">
-          <span>XXX型号：XXXXXX</span>
-          <span>XX号：XXXXX</span>
+        <div
+          v-for="item in card.products"
+          :key="item.id"
+          class="card-content-bottom-code"
+        >
+          <span>XXX型号：{{ item.type }}</span>
+          <span>XX号：{{ item.id }}</span>
+          <span v-if="item.code">XX编码：{{ item.code }}X</span>
         </div>
       </div>
     </div>
     <div class="card-button">
       <div class="button">
-        <el-button  @click="addToCart" size="mini">加入购物车</el-button>
+        <el-button @click="addToCart" size="mini">加入购物车</el-button>
       </div>
       <div class="button">
-        <el-button type="primary" size="mini">主要按钮</el-button>
+        <el-button @click="primaryButtonClick" type="primary" size="mini"
+          >主要按钮</el-button
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
-    data(){
-        return {
-            
-        }
-    },
-    componets:{
-        // DrawerShoppingCart
-    },
-    methods:{
-      addToCart(){
-        this.$emit('addToCart',{})
-      }
+  props: {
+    card: {
+      type: Object,
+      required: true,
+      default: () => ({})
     }
+  },
+  data() {
+    return {};
+  },
+  components: {
+    // DrawerShoppingCart
+  },
+  methods: {
+    addToCart() {
+      this.$emit("addToCart", {});
+    },
+    primaryButtonClick() {
+      this.$emit("primaryClick", {});
+    }
+  }
 };
 </script>
 
-<style lang="less" scpoed>
+<style lang="less" scoped>
 .resource-main-card {
   display: flex;
   justify-items: center;
