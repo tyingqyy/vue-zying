@@ -4,16 +4,32 @@
       <div class="resource-sreach">
         <div class="resource-head">
           <div class="sreach-head-input">
-            <el-input placeholder="请输入内容" size="mini" v-model="dataSreach" clearable></el-input>
-            <el-button type="primary" size="mini" icon="el-icon-search"></el-button>
+            <el-input
+              placeholder="请输入内容"
+              size="mini"
+              v-model="dataSreach"
+              clearable
+            ></el-input>
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-search"
+            ></el-button>
             <div class="sreach-text">
-              <el-button type="primary" size="mini" @click="isDialog">高级搜索</el-button>
+              <el-button type="primary" size="mini" @click="isDialog"
+                >高级搜索</el-button
+              >
             </div>
           </div>
           <div class="resource-date">
             <div class="block">
               <span class="demonstration resource-date-title">有效期至</span>
-              <el-date-picker v-model="date" type="date" placeholder="选择日期" size="mini"></el-date-picker>
+              <el-date-picker
+                v-model="date"
+                type="date"
+                placeholder="选择日期"
+                size="mini"
+              ></el-date-picker>
             </div>
           </div>
         </div>
@@ -21,12 +37,13 @@
       </div>
       <div class="resource-main">
         <div class="resource-main-scroll">
-          <resource-main-card @addToCart="addToCart"></resource-main-card>
-          <resource-main-card></resource-main-card>
-          <resource-main-card></resource-main-card>
-          <resource-main-card></resource-main-card>
-          <resource-main-card></resource-main-card>
-          <resource-main-card></resource-main-card>
+          <resource-main-card
+            v-for="cart in carts"
+            :key="cart.id"
+            :card="cart"
+            @addToCart="addToCart"
+            @primaryClick="resoureCardPrimaryClick"
+          ></resource-main-card>
         </div>
       </div>
       <div class="resource-pagination">
@@ -44,6 +61,7 @@ import ResourceMainCard from "@/components/ResourceMainCard";
 import Pagination from "@/components/Pagination";
 import SreachDialog from "@/components/SreachDialog";
 import DrawerShoppingCart from "@/components/DrawerShoppingCart";
+import { actions as cartActions } from "../store/cart";
 
 export default {
   name: "resource-share",
@@ -159,13 +177,25 @@ export default {
     SreachDialog,
     DrawerShoppingCart
   },
+  computed: {
+    carts() {
+      console.log(this)
+      return this.$store.state.cart.carts;
+    }
+  },
   methods: {
     isDialog() {
       this.dialogVisible = true;
     },
     addToCart() {
       this.drawer = true;
+    },
+    resoureCardPrimaryClick(data) {
+      console.log(data);
     }
+  },
+  mounted() {
+    this.$store.dispatch(cartActions.FETCH_CART);
   }
 };
 </script>
