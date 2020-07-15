@@ -17,8 +17,8 @@
             ></el-button>
             <div class="sreach-text">
               <el-button type="primary" size="mini" @click="isDialog"
-                >高级搜索</el-button
-              >
+                >高级搜索
+              </el-button>
             </div>
           </div>
           <div class="resource-date">
@@ -38,11 +38,11 @@
       <div class="resource-main">
         <div class="resource-main-scroll">
           <resource-main-card
-            v-for="cart in carts"
-            :key="cart.id"
-            :card="cart"
+            v-for="item in resources"
+            :key="item.id"
+            :card="item"
             @addToCart="addToCart"
-            @primaryClick="resoureCardPrimaryClick"
+            @primaryClick="resourceCardPrimaryClick"
           ></resource-main-card>
         </div>
       </div>
@@ -51,7 +51,10 @@
       </div>
     </div>
     <sreach-dialog :dialogVisible.sync="dialogVisible"></sreach-dialog>
-    <drawer-shopping-cart :drawer.sync="drawer"></drawer-shopping-cart>
+    <drawer-shopping-cart
+      :goods="carts"
+      :drawer.sync="drawer"
+    ></drawer-shopping-cart>
   </div>
 </template>
 
@@ -61,7 +64,8 @@ import ResourceMainCard from "@/components/ResourceMainCard";
 import Pagination from "@/components/Pagination";
 import SreachDialog from "@/components/SreachDialog";
 import DrawerShoppingCart from "@/components/DrawerShoppingCart";
-import { actions as cartActions } from "../store/cart";
+import { actionTypes as cartActions } from "../store/cart";
+import { actions as resourceActions } from "../store/resource";
 
 export default {
   name: "resource-share",
@@ -72,6 +76,10 @@ export default {
       isshow: true,
       dataSreach: "",
       date: "",
+      params: {
+        content: "",
+        date: ""
+      },
       checkboxGroup: [],
       objData: {
         typeName: "类型",
@@ -179,23 +187,28 @@ export default {
   },
   computed: {
     carts() {
-      console.log(this)
       return this.$store.state.cart.carts;
+    },
+    resources() {
+      return this.$store.state.resource.list;
     }
   },
   methods: {
     isDialog() {
       this.dialogVisible = true;
     },
-    addToCart() {
+    addToCart(cart) {
+      this.$store.commit(cartActions.ADD_TO_CART, cart);
       this.drawer = true;
     },
-    resoureCardPrimaryClick(data) {
+    resourceCardPrimaryClick(data) {
       console.log(data);
     }
   },
   mounted() {
-    this.$store.dispatch(cartActions.FETCH_CART);
+    this.$store.dispatch(resourceActions.FETCH_LIST);
+    // const arr = [1,2,3,4,4,5,6,7];
+    // const [first, ...rest] = arr;
   }
 };
 </script>
@@ -207,33 +220,41 @@ export default {
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
+
   &-share {
     height: 100%;
     display: flex;
     flex-direction: column;
+
     &-pagination {
       flex: 0 0 auto;
     }
   }
+
   .resource-sreach {
     flex: 0 0 auto;
+
     .resource-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: #fff;
       padding: 10px;
+
       .sreach-head-input {
         margin: 10px;
         width: 300px;
         display: flex;
         align-items: center;
+
         .sreach-text {
           margin-left: 10px;
         }
       }
+
       .resource-date {
         padding-right: 20px;
+
         .resource-date-title {
           margin-right: 10px;
           font-size: 14px;
@@ -241,11 +262,13 @@ export default {
       }
     }
   }
+
   .resource-main {
     margin: 10px 0 0;
     background: #fff;
     flex: 1 1 auto;
     overflow-y: auto;
+
     .shopping-Cart {
       display: flex;
       justify-content: flex-end;

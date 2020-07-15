@@ -28,7 +28,7 @@
     </div>
     <div class="card-button">
       <div class="button">
-        <el-button @click="addToCart" size="mini">加入购物车</el-button>
+        <el-button @click="addToCart(card)" size="mini">加入购物车</el-button>
       </div>
       <div class="button">
         <el-button @click="primaryButtonClick" type="primary" size="mini"
@@ -55,8 +55,8 @@ export default {
     // DrawerShoppingCart
   },
   methods: {
-    addToCart() {
-      this.$emit("addToCart", {});
+    addToCart(cart) {
+      this.$emit("addToCart", cart);
     },
     primaryButtonClick() {
       this.$emit("primaryClick", {});

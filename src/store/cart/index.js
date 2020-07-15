@@ -1,28 +1,35 @@
-import { getCart } from "../../api";
+import Vue from "vue";
 
-export const actions = {
-  FETCH_CART: "CART_FETCH_CART",
-  INIT_CART: "CART_INIT_CART",
-  ADD_TO_CART: "CART_ADD_TO_CART"
+export const actionTypes = {
+    ADD_TO_CART: "CART_ADD_TO_CART"
 };
 export default {
-  state: {
-    carts: [],
-    count: 0,
-    amount: 0
-  },
-  mutations: {
-    [actions.ADD_TO_CART](state, cart) {
-      state.carts.push(cart);
+    state: {
+        carts: [],
+        count: 0,
+        amount: 0
     },
-    [actions.INIT_CART](state, carts) {
-      state.carts = carts;
-    }
-  },
-  actions: {
-    async [actions.FETCH_CART](context) {
-      const carts = await getCart();
-      context.commit(actions.INIT_CART, carts);
-    }
-  }
+    mutations: {
+        [actionTypes.ADD_TO_CART](state, cart) {
+            const type = cart.id;
+            const find = state.carts.findIndex(item => item.type === type);
+            if(find >= 0){
+                Vue.set(state.carts, find, {
+                    type: state.carts[find].type,
+                    data: [...state.carts[find].data, cart]
+                })
+            }else {
+                state.carts = [
+                    ...state.carts,
+                    {
+                        type: cart.id,
+                        data: [cart]
+                    }
+                ]
+            }
+        },
+        [actionTypes.INIT_CART](state, carts) {
+            state.carts = carts;
+        }
+    },
 };

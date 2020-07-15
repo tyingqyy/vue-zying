@@ -5,25 +5,38 @@
         购物车
         <i>（0）</i>
       </span>
-      <div class="shopping-cart">
+      <div
+        class="shopping-cart"
+        v-for="goodsItem in goods"
+        :key="goodsItem.type"
+      >
         <el-row>
           <el-col :span="24">
             <div class="grid-content bg-purple-dark">
-              <i class="el-icon-office-building"></i>夏娜阿道夫
+              <i class="el-icon-office-building"></i>
+              {{ goodsItem.type }}
             </div>
           </el-col>
         </el-row>
-        <div class="shopping-cart-content">
+        <div
+          class="shopping-cart-content"
+          v-for="item in goodsItem.data"
+          :key="item.id"
+        >
           <el-row>
             <el-col :span="8">
-              <div class="grid-content bg-purple">手机打开房间</div>
+              <div class="grid-content bg-purple">{{ item.title }}</div>
             </el-col>
             <el-col :span="8">
-              <div class="grid-content bg-purple-light">到付款时间的弗兰克的</div>
+              <div class="grid-content bg-purple-light">{{ item.dueDate }}</div>
             </el-col>
             <el-col :span="8">
               <div class="grid-content bg-purple-light">
-                <el-button type="primary" icon="el-icon-delete" size="mini"></el-button>
+                <el-button
+                  type="primary"
+                  icon="el-icon-delete"
+                  size="mini"
+                ></el-button>
               </div>
             </el-col>
           </el-row>
@@ -45,6 +58,10 @@ export default {
     drawer: {
       type: Boolean,
       default: false
+    },
+    goods: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {
@@ -60,7 +77,7 @@ export default {
 };
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 .shopping-car {
   padding: 10px 20px;
   .shopping-cart-content {
