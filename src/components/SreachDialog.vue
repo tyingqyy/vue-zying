@@ -28,7 +28,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="$emit('update:dialogVisible',false)">取 消</el-button>
-        <el-button type="primary" @click="submiForm">确 定</el-button>
+        <el-button type="primary" @click="handleSubmit" >确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       form: {
-        name: "",
+        name: '',
         region: "",
         date1: "",
         date2: "",
@@ -156,8 +156,9 @@ export default {
       SreachType
   },
   methods: {
-    submiForm() {
+    handleSubmit() {
       this.$emit("update:dialogVisible", false);
+      this.$emit('handleSubmit', this.form);
     }
   }
 };

@@ -36,6 +36,7 @@
                   type="primary"
                   icon="el-icon-delete"
                   size="mini"
+                  @click="deleteGoods(item)"
                 ></el-button>
               </div>
             </el-col>
@@ -72,6 +73,9 @@ export default {
   methods: {
     handleClose() {
       this.$emit("update:drawer", false);
+    },
+    deleteGoods(goods){
+      this.$emit("deleteGoods",goods)
     }
   }
 };

@@ -28,7 +28,7 @@
     </div>
     <div class="card-button">
       <div class="button">
-        <el-button @click="addToCart(card)" size="mini">加入购物车</el-button>
+        <el-button @click="addToCart(card)" :disabled="isInCart" size="mini">加入购物车</el-button>
       </div>
       <div class="button">
         <el-button @click="primaryButtonClick" type="primary" size="mini"
@@ -46,6 +46,10 @@ export default {
       type: Object,
       required: true,
       default: () => ({})
+    },
+    isInCart: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

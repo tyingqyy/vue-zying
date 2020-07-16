@@ -7,17 +7,18 @@
             <el-input
               placeholder="请输入内容"
               size="mini"
-              v-model="dataSreach"
+              v-model="params.keyword"
               clearable
             ></el-input>
             <el-button
               type="primary"
               size="mini"
               icon="el-icon-search"
+              @click="search"
             ></el-button>
             <div class="sreach-text">
-              <el-button type="primary" size="mini" @click="isDialog"
-                >高级搜索
+              <el-button type="primary" size="mini" @click="isDialog">
+                高级搜索
               </el-button>
             </div>
           </div>
@@ -40,6 +41,7 @@
           <resource-main-card
             v-for="item in resources"
             :key="item.id"
+            :isInCart="cartIds.includes(item.id)"
             :card="item"
             @addToCart="addToCart"
             @primaryClick="resourceCardPrimaryClick"
@@ -50,10 +52,14 @@
         <pagination></pagination>
       </div>
     </div>
-    <sreach-dialog :dialogVisible.sync="dialogVisible"></sreach-dialog>
+    <sreach-dialog
+      :dialogVisible.sync="dialogVisible"
+      @handleSubmit="search"
+    ></sreach-dialog>
     <drawer-shopping-cart
       :goods="carts"
       :drawer.sync="drawer"
+      @deleteGoods="deleteGoods"
     ></drawer-shopping-cart>
   </div>
 </template>
@@ -74,10 +80,9 @@ export default {
       drawer: false,
       dialogVisible: false,
       isshow: true,
-      dataSreach: "",
       date: "",
       params: {
-        content: "",
+        keyword: "",
         date: ""
       },
       checkboxGroup: [],
@@ -191,6 +196,9 @@ export default {
     },
     resources() {
       return this.$store.state.resource.list;
+    },
+    cartIds() {
+      return this.$store.getters.cartIds;
     }
   },
   methods: {
@@ -199,14 +207,22 @@ export default {
     },
     addToCart(cart) {
       this.$store.commit(cartActions.ADD_TO_CART, cart);
+      console.log(this.$store.getters);
       this.drawer = true;
     },
     resourceCardPrimaryClick(data) {
       console.log(data);
+    },
+    search(params) {
+      this.$store.dispatch(resourceActions.FETCH_LIST, params);
+    },
+    deleteGoods(goods) {
+      this.$store.commit(cartActions.DELETE_GOODS, goods);
     }
   },
   mounted() {
     this.$store.dispatch(resourceActions.FETCH_LIST);
+
     // const arr = [1,2,3,4,4,5,6,7];
     // const [first, ...rest] = arr;
   }
