@@ -1,13 +1,21 @@
 <template>
   <div class="sreach-type">
-    <div class="type-name">{{objData.typeName}}</div>
+    <div v-if="hasTypeName" class="type-name">{{objData.typeName}}</div>
     <div :class="isshow?'type-list':'type-list-hide'">
-      <el-checkbox-group v-model="checkboxGroup" size="mini">
+      <el-checkbox-group v-model="checkboxGroup" @change="onSearchTypeChange" size="mini">
         <div class="type-list-item">
           <el-checkbox-button
+            :label="-1"
+            :key="-1"
+            @change="onSelectAllChange"
+          >
+            全部
+          </el-checkbox-button>
+          <el-checkbox-button
             v-for="city in objData.typeList"
-            :label="city"
+            :label="city.id"
             :key="city.id"
+            @change="onSelectOtherChange"
           >{{city.name}}</el-checkbox-button>
         </div>
       </el-checkbox-group>
@@ -38,11 +46,24 @@ export default {
       default() {
         return {};
       }
+    },
+    hasTypeName: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
     isShow() {
       this.isshow = !this.isshow;
+    },
+    onSelectAllChange(){
+        this.checkboxGroup = [-1];
+    },
+    onSelectOtherChange(){
+      this.checkboxGroup = this.checkboxGroup.filter(item => item !== -1);
+    },
+    onSearchTypeChange(){
+      this.$emit('change',this.checkboxGroup)
     }
   }
 };
@@ -52,7 +73,7 @@ export default {
 .sreach-type {
   display: flex;
   justify-items: center;
-  padding: 0 20px 10px;
+  /*padding: 0 20px 10px;*/
   background: #fff;
   .type-name {
     font-size: 14px;

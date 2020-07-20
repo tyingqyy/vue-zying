@@ -23,7 +23,7 @@
           </el-form-item>
         </div>
         <el-form-item label="类型">
-          <sreach-type :objData="objData"></sreach-type>
+          <sreach-type :hasTypeName="false" :objData="objData"></sreach-type>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

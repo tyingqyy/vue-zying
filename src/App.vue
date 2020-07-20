@@ -3,6 +3,7 @@
     <div class="header">
       <router-link to="/">资源市场</router-link>
       <router-link to="/workbench">工作台</router-link>
+      <router-link to="/details">详情页</router-link>
     </div>
     <main>
       <router-view></router-view>

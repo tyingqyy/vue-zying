@@ -34,7 +34,9 @@
             </div>
           </div>
         </div>
-        <sreach-type :objData="objData"></sreach-type>
+        <div>
+          <sreach-type @change="onSearchTypeChange" :objData="objData"></sreach-type>
+        </div>
       </div>
       <div class="resource-main">
         <div class="resource-main-scroll">
@@ -218,6 +220,9 @@ export default {
     },
     deleteGoods(goods) {
       this.$store.commit(cartActions.DELETE_GOODS, goods);
+    },
+    onSearchTypeChange(data) {
+      console.log(data)
     }
   },
   mounted() {
